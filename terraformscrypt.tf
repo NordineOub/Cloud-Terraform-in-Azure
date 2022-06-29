@@ -14,24 +14,24 @@ provider "azurerm" {
   subscription_id = "765266c6-9a23-4638-af32-dd1e32613047"
 }
 resource "azurerm_public_ip" "public_ip" {
-  name                = "devops-20200174" 
-  resource_group_name = "devops-TP2"
-  location            = "francecentral"
+  name                = var.name_client
+  resource_group_name = var.resource_group_name
+  location            = var.location
   allocation_method   = "Dynamic"
 
 }
  
 resource "azurerm_subnet" "internal" {
   name                = "internal" 
-  resource_group_name = "devops-TP2"
+  resource_group_name = var.resource_group_name
   virtual_network_name = "example-network"
   address_prefixes     = ["10.3.1.0/24"]
 }
 
 resource "azurerm_network_interface" "main" {
-  name                = "devops-20200174" 
-  resource_group_name = "devops-TP2"
-  location            = "francecentral"
+  name                = var.name_client
+  resource_group_name = var.resource_group_name
+  location            = var.location
 
   ip_configuration {
     name                          = "testconfiguration1"
@@ -51,9 +51,9 @@ resource "tls_private_key" "example_ssh" {
 
 
 resource "azurerm_linux_virtual_machine" "main" {
-  name                = "devops-20200174" 
-  resource_group_name = "devops-TP2"
-  location            = "francecentral"
+  name                = var.name_client
+  resource_group_name = var.resource_group_name
+  location            = var.location
   network_interface_ids = [azurerm_network_interface.main.id]
   size             = "Standard_D2s_v3"
 
